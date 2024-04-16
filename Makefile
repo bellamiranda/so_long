@@ -8,7 +8,8 @@ MLX_FLAGS = -L $(MLX_DIR) -lm -lmlx -Ilmlx -lXext -lX11
 
 SRCS = get_next_line.c get_next_line_utils.c \
 		utils.c map.c map_validations.c free.c \
-		valid_paths.c 
+		valid_paths.c game.c moves.c moves_2.c
+
 SRCS_BONUS = 
 
 OBJS = $(SRCS:.c=.o)

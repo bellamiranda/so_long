@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:22:21 by ismirand          #+#    #+#             */
-/*   Updated: 2024/03/12 15:41:41 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/16 15:29:24 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,33 @@ int	main(int argc, char **argv)
 	{
 		map_init(&game, argv[1]);
 		map_validations(game);
-		//game_init(game);
-		game->library = mlx_init(); //inicializa a biblioteca
-		game->window = mlx_new_window(game->library, 1000, 1000, "teste"); //abre uma janela
-		mlx_loop(game->library); //mantem a janela aberta
-		
-		for (int i = 0; i < game->lines; i++)
+		game->mlx = mlx_init();
+		game->window = mlx_new_window(game->mlx, game->width * SZ, game->height * SZ, "so_long");
+		set_images_to_pointer(game, SZ);
+		put_images_on_window(game);
+		game->movements = 0;
+		game->was_exit = 0;
+		mlx_hook(game->window, KeyPress, KeyPressMask, put_keys, game);
+		//mlx_key_hook(game->window, put_keys, game); ->apenas 1 clique
+		//mlx_loop_hook(game->window, put_keys, game); ->RODAR A MOEDA
+		mlx_loop(game->mlx);
+/* 
+		for (int i = 0; i < game->height; i++)
 			printf("%s\n", game->map[i]);
-		free_struct(game);
-		return (0);
-		
-		printf("ola\n");
+
+		exit_game(game, 0); */
 	}
+	return (write(2, "Error\nInvalid input\n", 21));
 }
 
 /* COMEÇANDO O JOGO:
+- mlx_init -> inicializa a biblioteca
+	guardar em um ponteiro void (NULL if init fails)
 - abrir e fechar janela
 	mlx_new_window -> abre uma janela
+		(void *mlx(library pointer), int width, int height, char *title(window name))
+		return window pointer void
+	mlx_clear_window -> fecha a janela
 	mlx_loop -> mantem a janela aberta
 	mlx_hook -> linca clique de tecla a funcionalidades (A W S D)
 

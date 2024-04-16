@@ -6,11 +6,41 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 19:15:06 by ismirand          #+#    #+#             */
-/*   Updated: 2024/03/12 14:35:17 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/15 21:12:27 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+
+void	write_movements(t_game *game)
+{
+	write(1, "Movements: ", 11);
+	ft_putnbr_fd(game->movements, 1);
+	write(1, "\n", 1);
+}
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	char	c;
+	
+	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else if (n < 0)
+	{
+		write(fd, "-", 1);
+		ft_putnbr_fd(-n, fd);
+	}
+	else if (n >= 10)
+	{
+		ft_putnbr_fd(n / 10, fd);
+		ft_putnbr_fd(n % 10, fd);
+	}
+	else if (n < 10)
+	{
+		c = n + '0';
+		write(fd, &c, 1);
+	}
+}
 
 char	**ft_mtxdup(t_game *game)
 {
@@ -18,7 +48,7 @@ char	**ft_mtxdup(t_game *game)
 	int	i;
 
 	i = -1;
-	dest = ft_calloc(sizeof(char *), game->lines + 1);
+	dest = ft_calloc(sizeof(char *), game->height + 1);
 	if (!dest)
 		return (NULL);
 	while (game->map[++i])

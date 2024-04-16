@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 19:30:49 by ismirand          #+#    #+#             */
-/*   Updated: 2024/03/12 15:25:49 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/10 20:08:36 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	map_lines(t_game *game, char *arg)
 	char	*line;
 	int		fd;
 
-	(game)->lines = 0;
+	(game)->height = 0;
 	fd = open(arg, O_RDONLY);
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		(game)->lines++;
+		(game)->height++;
 		free (line);
 	}
 	//free (line);
@@ -52,7 +52,7 @@ void	map_init(t_game **game, char *arg)
 	*game = malloc(sizeof(t_game));
 	fd = open(arg, O_RDONLY);
 	map_lines(*game, arg);
-	(*game)->map = ft_calloc(sizeof(char *), (*game)->lines + 1);
+	(*game)->map = ft_calloc(sizeof(char *), (*game)->height + 1);
 	while (1)
 	{
 		line = get_next_line(fd);

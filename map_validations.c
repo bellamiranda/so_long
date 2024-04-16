@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 14:11:39 by ismirand          #+#    #+#             */
-/*   Updated: 2024/03/12 15:28:33 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/15 21:06:25 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	not_rectangular(t_game *game)
 {
 	int	i;
 	int	cur_line;
-	int	last_line;
+	int	first_line;
 
 	i = -1;
 	while (game->map[++i])
@@ -25,8 +25,11 @@ int	not_rectangular(t_game *game)
 		while (game->map[i][++cur_line])
 			continue ;
 		if (i == 0)
-			last_line = cur_line;
-		if (last_line != cur_line)
+		{
+			game->width = cur_line;
+			first_line = cur_line;
+		}
+		if (first_line != cur_line)
 			return (write (2, "Error\nMap not rectangular\n", 27));
 	}
 	return (0);
@@ -39,7 +42,7 @@ int	min_area(t_game *game)
 	i = -1;
 	while (game->map[0][++i])
 		continue ;
-	i += game->lines;
+	i += game->height;
 	if (i < 8)
 		return (write (2, "Error\nMap is too small\n", 24));
 	return (0);
@@ -54,7 +57,7 @@ int	miss_walls(t_game *game)
 	while (game->map[++i])
 	{
 		j = -1;
-		if (i == 0 || i == game->lines - 1)
+		if (i == 0 || i == game->height - 1)
 			while (game->map[i][++j])
 				if (game->map[i][j] != '1')
 					return (write (2, "Error\nMap not closed by walls\n", 31));
@@ -69,27 +72,29 @@ int	miss_walls(t_game *game)
 
 int	double_char(t_game *game)
 {
-	int	i;
-	int	j;
-	int	p;
-	int	e;
+	int	y;
+	int	x;
+	int	count;
 
-	p = 0;
-	e = 0;
-	i = -1;
-	while (game->map[++i])
+	count = 0;
+	y = -1;
+	while (game->map[++y])
 	{
-		j = -1;
-		while (game->map[i][++j])
+		x = -1;
+		while (game->map[y][++x])
 		{
-			if (game->map[i][j] == 'P')
-				p++;
-			if (game->map[i][j] == 'E')
-				e++;
+			if (game->map[y][x] == 'P')
+			{
+				game->p_y = y;
+				game->p_x = x;
+				count++;
+			}
+			if (game->map[y][x] == 'E')
+				count++;
 		}
 	}
-	if (p != 1 || e != 1)
-		return (write (2, "Error\nMap has error with player or exit\n", 41));
+	if (count != 2)
+		return (write (2, "Error\nMap is missing player or exit\n", 37));
 	return (0);
 }
 
