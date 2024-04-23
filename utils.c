@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 19:15:06 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/15 21:12:27 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:08:21 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ void	write_movements(t_game *game)
 	write(1, "Movements: ", 11);
 	ft_putnbr_fd(game->movements, 1);
 	write(1, "\n", 1);
+	write_movements_on_window(game);
 }
 
 void	ft_putnbr_fd(int n, int fd)
 {
 	char	c;
-	
+
 	if (n == -2147483648)
 		write(fd, "-2147483648", 11);
 	else if (n < 0)
@@ -44,8 +45,8 @@ void	ft_putnbr_fd(int n, int fd)
 
 char	**ft_mtxdup(t_game *game)
 {
-	char **dest;
-	int	i;
+	char	**dest;
+	int		i;
 
 	i = -1;
 	dest = ft_calloc(sizeof(char *), game->height + 1);

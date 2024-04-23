@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:22:21 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/16 15:29:24 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:26:02 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,47 +15,41 @@
 int	main(int argc, char **argv)
 {
 	t_game	*game;
-
-	if (argc == 2 && open(argv[1], O_RDONLY) && find_ber(argv[1], ".ber"))
+	int		fd;
+	
+	fd = open(argv[1], O_RDONLY);
+	if (argc == 2 && find_ber(argv[1], ".ber") && fd > 0)
 	{
 		map_init(&game, argv[1]);
 		map_validations(game);
-		game->mlx = mlx_init();
-		game->window = mlx_new_window(game->mlx, game->width * SZ, game->height * SZ, "so_long");
+		game->mlx = mlx_init();//inicializa a biblioteca
+		game->wd = mlx_new_window(game->mlx, game->width * SZ,
+				game->height * SZ, "so_long");//abre uma janela
 		set_images_to_pointer(game, SZ);
 		put_images_on_window(game);
 		game->movements = 0;
 		game->was_exit = 0;
-		mlx_hook(game->window, KeyPress, KeyPressMask, put_keys, game);
-		//mlx_key_hook(game->window, put_keys, game); ->apenas 1 clique
-		//mlx_loop_hook(game->window, put_keys, game); ->RODAR A MOEDA
+		mlx_hook(game->wd, KeyPress, KeyPressMask, put_keys, game);//key continuously pressed
+		mlx_hook(game->wd, DestroyNotify, ButtonPressMask, exit_game, game);//x clicked
+		mlx_loop_hook(game->mlx, find_collectable, game);//spin the coin
+		//mlx_loop_hook(game->mlx, find_enemy, game);//enemy movement
+		//mlx_key_hook(game->wd, put_keys, game);//key pressed once
 		mlx_loop(game->mlx);
+	}
+	if (fd < 0)
+		return (write(2, "Error\nInvalid input\n", 21));
+	return (0);
+}
+
 /* 
+		PRINT THE MAP
 		for (int i = 0; i < game->height; i++)
 			printf("%s\n", game->map[i]);
 
 		exit_game(game, 0); */
-	}
-	return (write(2, "Error\nInvalid input\n", 21));
-}
 
-/* COMEÇANDO O JOGO:
-- mlx_init -> inicializa a biblioteca
-	guardar em um ponteiro void (NULL if init fails)
-- abrir e fechar janela
-	mlx_new_window -> abre uma janela
-		(void *mlx(library pointer), int width, int height, char *title(window name))
-		return window pointer void
-	mlx_clear_window -> fecha a janela
-	mlx_loop -> mantem a janela aberta
-	mlx_hook -> linca clique de tecla a funcionalidades (A W S D)
-
-- completa todos os requisitos para o jogo
-	inicializa imagens para ponteiro
-		mlx_put_image_to_xpm
-	renderiza
-		mlx_put_
- */
+//fazer loop antes de encontrar cada C
+//função rand da biblioteca mat
 
 /* VALIDAÇÕES DO MAPA:
 - se tem caracter invalido (!= 0, 1, P, E, C)
@@ -67,7 +61,7 @@ int	main(int argc, char **argv)
 - se tem caminho valido pro P chegar ao E (colectables?) (flood fill)
 
 - tamanho maximo (tamanho da tela do pc) - NAO FIZ
-RETORNA mensagem de erro configurável \n */
+RETORNA mensagem de erro configurável \n
 
-/* para ser valido, a abertura do mapa tem que ser valida e 
+para ser valido, a abertura do mapa tem que ser valida e 
 os 4 ultimos digitos tem que ser ".ber"*/

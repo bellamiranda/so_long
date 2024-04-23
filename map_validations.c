@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 14:11:39 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/15 21:06:25 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:05:47 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	double_char(t_game *game)
 		}
 	}
 	if (count != 2)
-		return (write (2, "Error\nMap is missing player or exit\n", 37));
+		return (write (2, "Error\nMap has problem with player or exit\n", 43));
 	return (0);
 }
 
@@ -102,9 +102,7 @@ int	invalid_char(t_game *game)
 {
 	int	i;
 	int	j;
-	int	c;
 
-	c = 0;
 	i = -1;
 	while (game->map[++i])
 	{
@@ -113,14 +111,13 @@ int	invalid_char(t_game *game)
 		{
 			if (game->map[i][j] != '0' && game->map[i][j] != '1' &&
 				game->map[i][j] != 'P' && game->map[i][j] != 'C' &&
-				game->map[i][j] != 'E')
+				game->map[i][j] != 'E' && game->map[i][j] != 'T')
 				return (write (2, "Error\nMap has invalid character\n", 32));
 			if (game->map[i][j] == 'C')
-				c++;
+				game->collectables++;
 		}
 	}
-	game->collectables = c;
-	if (c == 0)
+	if (game->collectables == 0)
 		return (write (2, "Error\nMap doesn't have collectables\n", 36));
 	return (0);
 }

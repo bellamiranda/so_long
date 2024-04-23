@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 15:12:05 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/16 14:04:51 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:52:43 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,14 @@
 
 # define SZ 32
 
-typedef struct s_game
+typedef struct	s_game
 {
 	void	*mlx;//faz a conexão do programa com a minilibx
-	void	*window;//pointer que leva ate a janela
+	void	*wd;//pointer que leva ate a janela
 	int		height;
 	int		width;
+	int		x;
+	int		y;
 	int		collectables;
 	int		path_c;
 	int		p_y;
@@ -62,8 +64,16 @@ typedef struct s_game
 	void	*ground;
 	void	*wall;
 	void	*exit;
+	void	*enemy;
 	int		was_exit;
 }			t_game;
+
+typedef struct	s_cord
+{
+	int	x;
+	int	y;
+}		t_cord;
+
 
 //get_next_line
 char	*ft_strjoin(char *s1, char *s2);
@@ -105,16 +115,22 @@ int		put_keys(int key, t_game *game);
 void	move_up(t_game *game);
 void	aux_move_up(t_game *game, int flag);
 void	move_left(t_game *game);
-void 	aux_move_left(t_game *game, int flag);
+void	aux_move_left(t_game *game, int flag);
 void	move_down(t_game *game);
 void	aux_move_down(t_game *game, int flag);
 void	move_right(t_game *game);
 void	aux_move_right(t_game *game, int flag);
+int		coin_spin(t_game *game);
+int		find_collectable(t_game *game);
 
 //free
 void	free_struct(t_game *game);
 void	free_mtx(char **src);
-void	exit_game(t_game *game, int flag);
+int		exit_game(t_game *game, int flag);
+
+//bonus
+void	write_movements_on_window(t_game *game);
+char	*ft_itoa(int n);
 
 #endif
 

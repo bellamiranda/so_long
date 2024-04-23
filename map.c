@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 19:30:49 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/10 20:08:36 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:43:45 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	map_validations(t_game *game)
 {
-	if (invalid_char(game) || double_char(game) || miss_walls(game)
-		|| min_area(game) || not_rectangular(game)
+	if (min_area(game) || invalid_char(game) || double_char(game)
+		|| miss_walls(game) || not_rectangular(game)
 		|| !valid_path_exit(game) || !valid_path_collectable(game))
 	{
 		free_struct(game);
