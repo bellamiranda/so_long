@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 14:11:39 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/23 17:05:47 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:42:25 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int	invalid_char(t_game *game)
 	int	j;
 
 	i = -1;
+	game->collectables = 0;
+	game->enemies_count = 0;
 	while (game->map[++i])
 	{
 		j = -1;
@@ -115,6 +117,8 @@ int	invalid_char(t_game *game)
 				return (write (2, "Error\nMap has invalid character\n", 32));
 			if (game->map[i][j] == 'C')
 				game->collectables++;
+			if (game->map[i][j] == 'T')
+				game->enemies_count++;
 		}
 	}
 	if (game->collectables == 0)

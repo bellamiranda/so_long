@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:49:47 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/23 17:24:19 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/29 20:43:13 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@ void	aux_move_right(t_game *game, int flag)
 		mlx_put_image_to_window(game->mlx, game->wd, game->exit,
 			game->p_x * SZ, game->p_y * SZ);
 		game->was_exit = 0;
+		game->map[game->p_y][game->p_x] = 'E';
 	}
 	else
+	{
 		mlx_put_image_to_window(game->mlx, game->wd, game->ground,
 			game->p_x * SZ, game->p_y * SZ);
+		game->map[game->p_y][game->p_x] = '0';
+	}
 	if (flag == 'E')
 	{
 		mlx_put_image_to_window(game->mlx, game->wd, game->p_exit,
@@ -32,7 +36,7 @@ void	aux_move_right(t_game *game, int flag)
 	if (flag == '0' || flag == 'C')
 		mlx_put_image_to_window(game->mlx, game->wd, game->p_right,
 			(game->p_x + 1) * SZ, game->p_y * SZ);
-	game->p_x++;
+	game->map[game->p_y][game->p_x + 1] = 'P';
 	if (flag == 'C')
 		game->collectables--;
 }
@@ -41,8 +45,7 @@ void	move_right(t_game *game)
 {
 	if (game->map[game->p_y][game->p_x + 1] == '1')
 		return ;
-	if (game->map[game->p_y][game->p_x + 1] == '0'
-		|| game->map[game->p_y][game->p_x + 1] == 'P')
+	if (game->map[game->p_y][game->p_x + 1] == '0')
 		aux_move_right(game, '0');
 	else if (game->map[game->p_y][game->p_x + 1] == 'E')
 	{
@@ -54,9 +57,12 @@ void	move_right(t_game *game)
 	{
 		aux_move_right(game, 'C');
 		game->map[game->p_y][game->p_x] = '0';
+		free (game->coins);
+		find_collectable(game);
 	}
 	else if (game->map[game->p_y][game->p_x + 1] == 'T')
 		exit_game(game, 2);
+	game->p_x++;
 	game->movements++;
 	write_movements(game);
 }
@@ -68,10 +74,14 @@ void	aux_move_left(t_game *game, int flag)
 		mlx_put_image_to_window(game->mlx, game->wd, game->exit,
 			game->p_x * SZ, game->p_y * SZ);
 		game->was_exit = 0;
+		game->map[game->p_y][game->p_x] = 'E';
 	}
 	else
+	{
 		mlx_put_image_to_window(game->mlx, game->wd, game->ground,
 			game->p_x * SZ, game->p_y * SZ);
+		game->map[game->p_y][game->p_x] = '0';
+	}
 	if (flag == 'E')
 	{
 		mlx_put_image_to_window(game->mlx, game->wd, game->p_exit,
@@ -81,7 +91,7 @@ void	aux_move_left(t_game *game, int flag)
 	if (flag == '0' || flag == 'C')
 		mlx_put_image_to_window(game->mlx, game->wd, game->p_left,
 			(game->p_x - 1) * SZ, game->p_y * SZ);
-	game->p_x--;
+	game->map[game->p_y][game->p_x - 1] = 'P';
 	if (flag == 'C')
 		game->collectables--;
 }
@@ -90,8 +100,7 @@ void	move_left(t_game *game)
 {
 	if (game->map[game->p_y][game->p_x - 1] == '1')
 		return ;
-	if (game->map[game->p_y][game->p_x - 1] == '0'
-		|| game->map[game->p_y][game->p_x - 1] == 'P')
+	if (game->map[game->p_y][game->p_x - 1] == '0')
 		aux_move_left(game, '0');
 	else if (game->map[game->p_y][game->p_x - 1] == 'E')
 	{
@@ -103,9 +112,12 @@ void	move_left(t_game *game)
 	{
 		aux_move_left(game, 'C');
 		game->map[game->p_y][game->p_x] = '0';
+		free (game->coins);
+		find_collectable(game);
 	}
 	else if (game->map[game->p_y][game->p_x - 1] == 'T')
 		exit_game(game, 2);
+	game->p_x--;
 	game->movements++;
 	write_movements(game);
 }

@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 15:12:05 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/23 17:52:43 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:15:29 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,20 @@
 #  define BUFFER_SIZE 10
 # endif
 
+//max number of random values (NOT WORKING)
+# ifndef RAND_MAX
+#  define RAND_MAX 3
+# endif
+
 # include <unistd.h>//read, write
 # include <stdio.h>//error
 # include <string.h>//strerror
 # include <fcntl.h>//open
-# include <stdlib.h>//malloc, free, exit
+# include <stdlib.h>//malloc, free, exit + rand
 # include "minilibx-linux/mlx_int.h"
 # include "minilibx-linux/mlx.h"
 
-# define UP 65362
+# define UP 65362 //key codes
 # define DOWN 65364
 # define LEFT 65361
 # define RIGHT 65363
@@ -35,7 +40,13 @@
 # define KEY_D 100
 # define ESC 65307
 
-# define SZ 32
+# define SZ 45 //size of the images
+
+typedef struct	s_cord
+{
+	int	x;
+	int	y;
+}		t_cord;
 
 typedef struct	s_game
 {
@@ -66,13 +77,10 @@ typedef struct	s_game
 	void	*exit;
 	void	*enemy;
 	int		was_exit;
+	t_cord	*coins;
+	int		enemies_count;
+	t_cord	*enemies;
 }			t_game;
-
-typedef struct	s_cord
-{
-	int	x;
-	int	y;
-}		t_cord;
 
 
 //get_next_line
@@ -120,17 +128,25 @@ void	move_down(t_game *game);
 void	aux_move_down(t_game *game, int flag);
 void	move_right(t_game *game);
 void	aux_move_right(t_game *game, int flag);
+void	find_collectable(t_game *game);
 int		coin_spin(t_game *game);
-int		find_collectable(t_game *game);
+void	coin_image(t_game *g, int flag);
 
 //free
 void	free_struct(t_game *game);
 void	free_mtx(char **src);
 int		exit_game(t_game *game, int flag);
+void	clean_mlx(t_game *game);
 
 //bonus
 void	write_movements_on_window(t_game *game);
 char	*ft_itoa(int n);
+void	find_enemy(t_game *game);
+void	random_enemy(t_game *game);
+void	enemy_move_up(t_game *g);
+void	enemy_move_down(t_game *g);
+void	enemy_move_right(t_game *g);
+void	enemy_move_left(t_game *g);
 
 #endif
 

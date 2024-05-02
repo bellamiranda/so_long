@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:22:21 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/23 17:26:02 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:40:34 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ int	main(int argc, char **argv)
 		game->was_exit = 0;
 		mlx_hook(game->wd, KeyPress, KeyPressMask, put_keys, game);//key continuously pressed
 		mlx_hook(game->wd, DestroyNotify, ButtonPressMask, exit_game, game);//x clicked
-		mlx_loop_hook(game->mlx, find_collectable, game);//spin the coin
-		//mlx_loop_hook(game->mlx, find_enemy, game);//enemy movement
+		find_collectable(game);
+		mlx_loop_hook(game->mlx, coin_spin, game);//spin the coin
+		//find_enemy(game);
+		//mlx_loop_hook(game->mlx, enemy_move, game);//enemy movement (inside coin_spin)
 		//mlx_key_hook(game->wd, put_keys, game);//key pressed once
 		mlx_loop(game->mlx);
 	}
-	if (fd < 0)
-		return (write(2, "Error\nInvalid input\n", 21));
-	return (0);
+	return (write(2, "Error\nInvalid input\n", 21));
 }
 
 /* 

@@ -6,32 +6,61 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:57:31 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/23 17:26:36 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/01 20:15:53 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	find_enemy(t_game *game)
+void	random_enemy(t_game *game)
 {
-	static int	x;
-	static int	y;
+	int			flag;
+	static int	i = -1; //to make it move slowly
 
-	x = -1;
-	while (game->map[++x])
+	find_enemy(game);
+	//ACHAR UM LUGAR PRA DAR FREE
+	if (!game->enemies_count)
+		return ;
+	if (++i == 10000)
 	{
-		y = -1;
-		while (game->map[x][++y])
+		flag = rand();
+		if (flag % 4 == 0)
+			enemy_move_up(game);
+		if (flag % 4 == 1)
+			enemy_move_down(game);
+		if (flag % 4 == 2)
+			enemy_move_left(game);
+		if (flag % 4 == 3)
+			enemy_move_right(game);
+		i = -1;
+	}
+	free (game->enemies);
+}
+
+void	find_enemy(t_game *game)
+{
+	int	x;
+	int	y;
+	int	position;
+	t_cord	*enemies;
+
+	enemies = ft_calloc(sizeof(t_cord), game->enemies_count);
+	game->enemies = enemies;
+	position = 0;
+	y = -1;
+	while (game->map[++y])
+	{
+		x = -1;
+		while (game->map[y][++x])
 		{
-			if (game->map[x][y] == 'T')
+			if (game->map[y][x] == 'T')
 			{
-				game->x = x;
-				game->y = y;
-				//enemy_move(game);
+				game->enemies[position].x = x;
+				game->enemies[position].y = y;
+				position++;
 			}
 		}
 	}
-	return (0);
 }
 
 char	*ft_itoa(int n)
@@ -65,8 +94,8 @@ void	write_movements_on_window(t_game *game)
 	char	*movements;
 
 	movements = ft_itoa(game->movements);
-	mlx_put_image_to_window(game->mlx, game->wd, game->wall, 75, 0);
-	mlx_string_put(game->mlx, game->wd, 30, 20, 0x000000, "MOVEMENTS: ");
-	mlx_string_put(game->mlx, game->wd, 95, 20, 0x000000, movements);
+	mlx_put_image_to_window(game->mlx, game->wd, game->wall, 85, 0);
+	mlx_string_put(game->mlx, game->wd, 35, 20, 0x000000, "MOVEMENTS: ");
+	mlx_string_put(game->mlx, game->wd, 100, 20, 0x000000, movements);
 	free(movements);
 }

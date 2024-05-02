@@ -8,7 +8,7 @@ MLX_FLAGS = -L $(MLX_DIR) -lm -lmlx -Ilmlx -lXext -lX11
 SRCS = get_next_line.c get_next_line_utils.c \
 		utils.c map.c map_validations.c free.c \
 		valid_paths.c game.c moves.c moves_2.c \
-		bonus.c
+		bonus.c bonus_moves.c 
 
 OBJS = $(SRCS:.c=.o)
 
@@ -28,11 +28,3 @@ fclean: clean
 	$(RM) $(NAME) $(NAME_BONUS)
 
 re: fclean all
-
-
-
-bonus: $(NAME) $(NAME_BONUS)
-
-$(NAME_BONUS): $(OBJS) $(OBJS_BONUS)
-	ar -rcs $(NAME_BONUS) $(OBJS_BONUS)
-	$(CC) $(CFLAGS) -o $@ $^

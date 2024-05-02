@@ -6,38 +6,22 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:16:38 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/23 17:26:45 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/04/24 16:02:45 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	put_keys(int key, t_game *g)
+void	find_collectable(t_game *game)
 {
-	if (key == ESC)
-		exit_game(g, 1);
-	if (key == UP || key == KEY_W)
-		move_up(g);
-	if (key == DOWN || key == KEY_S)
-		move_down(g);
-	if (key == LEFT || key == KEY_A)
-		move_left(g);
-	if (key == RIGHT || key == KEY_D)
-		move_right(g);
-	return (0);
-}
-//altera: posição do player, numero no mapa, imagens
-//se for C, diminuir g->collectables
-//tem sempre que checar se nao é 1
-//so pode chegar no E. se g->collectables == 0
-//printar quantidade de movimentos, e saida (?)
-//mlx_put_string = printa no jogo (BONUS) (apagar e printar dnv)
+	int	x;
+	int	y;
+	int	position;
+	t_cord	*coins;
 
-int	find_collectable(t_game *game)
-{
-	static int	x;
-	static int	y;
-
+	coins = ft_calloc(sizeof(t_cord), game->collectables);
+	game->coins = coins;
+	position = 0;
 	x = -1;
 	while (game->map[++x])
 	{
@@ -46,28 +30,55 @@ int	find_collectable(t_game *game)
 		{
 			if (game->map[x][y] == 'C')
 			{
-				game->x = x;
-				game->y = y;
-				coin_spin(game);
+				game->coins[position].x = x;
+				game->coins[position].y = y;
+				position++;
 			}
+			if (position == game->collectables)
+				break;
 		}
 	}
-	return (0);
+}
+
+void	coin_image(t_game *g, int flag)
+{
+	int	p;
+	
+	p = -1;
+	while (++p < g->collectables)
+	{
+		if (flag == 1)
+			mlx_put_image_to_window(g->mlx, g->wd, g->c1,
+				g->coins[p].y * SZ, g->coins[p].x * SZ);
+		if (flag == 2)
+			mlx_put_image_to_window(g->mlx, g->wd, g->c2,
+				g->coins[p].y * SZ, g->coins[p].x * SZ);
+		if (flag == 3)
+			mlx_put_image_to_window(g->mlx, g->wd, g->c3,
+				g->coins[p].y * SZ, g->coins[p].x * SZ);
+		if (flag == 4)
+			mlx_put_image_to_window(g->mlx, g->wd, g->c4,
+				g->coins[p].y * SZ, g->coins[p].x * SZ);
+		if (g->coins[p].y == 0 && g->coins[p].x == 0)
+			mlx_put_image_to_window(g->mlx, g->wd, g->wall,
+				g->coins[p].y * SZ, g->coins[p].x * SZ);
+	}
 }
 
 int	coin_spin(t_game *g)
 {
 	static int	i = -1;
 
+	random_enemy(g); //move enemy in loop
 	if (++i == 0)
-		mlx_put_image_to_window(g->mlx, g->wd, g->c1, g->y * SZ, g->x * SZ);
+		coin_image(g, 1);
 	if (i == 10000)
-		mlx_put_image_to_window(g->mlx, g->wd, g->c2, g->y * SZ, g->x * SZ);
+		coin_image(g, 2);
 	if (i == 20000)
-		mlx_put_image_to_window(g->mlx, g->wd, g->c3, g->y * SZ, g->x * SZ);
+		coin_image(g, 3);
 	if (i == 30000)
 	{
-		mlx_put_image_to_window(g->mlx, g->wd, g->c4, g->y * SZ, g->x * SZ);
+		coin_image(g, 4);
 		i = -1;
 	}
 	return (0);
