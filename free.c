@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 16:22:14 by ismirand          #+#    #+#             */
-/*   Updated: 2024/05/01 20:24:36 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:44:58 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	clean_mlx(t_game *game)
 	mlx_destroy_image(game->mlx, game->p_up);
 	mlx_destroy_image(game->mlx, game->p_down);
 	mlx_destroy_image(game->mlx, game->p_exit);
-	mlx_destroy_image(game->mlx, game->enemy);
+	mlx_destroy_image(game->mlx, game->t);
 	mlx_destroy_window(game->mlx, game->wd);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);
@@ -72,8 +72,6 @@ void	free_struct(t_game *game)
 
 	i = -1;
 	free (game->coins);
-/* 	if (game->enemies_count > 0 && game->enemies)
-		free (game->enemies); */
 	while (++i <= game->height)
 		free (game->map[i]);
 	free (game->map);

@@ -1,9 +1,11 @@
 NAME = so_long
 
-CC = cc 
+CC = cc
 CFLAGS = -Wall -Werror -Wextra -g
-MLX_DIR = minilibx-linux/
-MLX_FLAGS = -L $(MLX_DIR) -lm -lmlx -Ilmlx -lXext -lX11
+
+LIB = -Lminilibx-linux -lmlx -lXext -lX11 -lm 
+MINILIBX = minilibx-linux/libmlx_linux.a
+MLX = minilibx-linux
 
 SRCS = get_next_line.c get_next_line_utils.c \
 		utils.c map.c map_validations.c free.c \
@@ -14,10 +16,17 @@ OBJS = $(SRCS:.c=.o)
 
 RM = rm -rf
 
-all: $(NAME)
+all: $(MLX) $(MINILIBX) $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) main.c $(MLX_FLAGS) -o $(NAME) 
+	$(CC) $(CFLAGS) $(OBJS) main.c $(LIB) -o $(NAME) 
+
+$(MINILIBX): $(MLX)
+	$(RM) minilibx-linux/.git
+	@make -C $^
+
+$(MLX):
+	@git clone https://github.com/42Paris/minilibx-linux.git
 
 #	$(CC) $(CFLAGS) $(NAME) $(OBJS) -o $(NAME)
 
@@ -25,6 +34,6 @@ clean:
 	$(RM) $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
-	$(RM) $(NAME) $(NAME_BONUS)
+	$(RM) $(NAME) $(NAME_BONUS) $(MLX)
 
 re: fclean all

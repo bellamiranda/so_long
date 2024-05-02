@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:54:30 by ismirand          #+#    #+#             */
-/*   Updated: 2024/05/01 20:25:10 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:57:38 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	enemy_move_up(t_game *g)
 			g->enemies[a].x * SZ, g->enemies[a].y * SZ);
 		g->enemies[a].y--;
 		g->map[g->enemies[a].y][g->enemies[a].x] = 'T';
-		mlx_put_image_to_window(g->mlx, g->wd, g->enemy,
+		mlx_put_image_to_window(g->mlx, g->wd, g->t,
 			g->enemies[a].x * SZ, g->enemies[a].y * SZ);
 	}
 }
@@ -53,7 +53,7 @@ void	enemy_move_down(t_game *g)
 			g->enemies[a].x * SZ, g->enemies[a].y * SZ);
 		g->enemies[a].y++;
 		g->map[g->enemies[a].y][g->enemies[a].x] = 'T';
-		mlx_put_image_to_window(g->mlx, g->wd, g->enemy,
+		mlx_put_image_to_window(g->mlx, g->wd, g->t,
 			g->enemies[a].x * SZ, g->enemies[a].y * SZ);
 	}
 }
@@ -76,7 +76,7 @@ void	enemy_move_right(t_game *g)
 			g->enemies[a].x * SZ, g->enemies[a].y * SZ);
 		g->enemies[a].x++;
 		g->map[g->enemies[a].y][g->enemies[a].x] = 'T';
-		mlx_put_image_to_window(g->mlx, g->wd, g->enemy,
+		mlx_put_image_to_window(g->mlx, g->wd, g->t,
 			g->enemies[a].x * SZ, g->enemies[a].y * SZ);
 	}
 }
@@ -99,7 +99,7 @@ void	enemy_move_left(t_game *g)
 			g->enemies[a].x * SZ, g->enemies[a].y * SZ);
 		g->enemies[a].x--;
 		g->map[g->enemies[a].y][g->enemies[a].x] = 'T';
-		mlx_put_image_to_window(g->mlx, g->wd, g->enemy,
+		mlx_put_image_to_window(g->mlx, g->wd, g->t,
 			g->enemies[a].x * SZ, g->enemies[a].y * SZ);
 	}
 }

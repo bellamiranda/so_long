@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 15:12:05 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/26 16:15:29 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:58:48 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
-# endif
-
-//max number of random values (NOT WORKING)
-# ifndef RAND_MAX
-#  define RAND_MAX 3
 # endif
 
 # include <unistd.h>//read, write
@@ -40,15 +35,15 @@
 # define KEY_D 100
 # define ESC 65307
 
-# define SZ 45 //size of the images
+# define SZ 40 //size of the images
 
-typedef struct	s_cord
+typedef struct s_cord
 {
 	int	x;
 	int	y;
 }		t_cord;
 
-typedef struct	s_game
+typedef struct s_game
 {
 	void	*mlx;//faz a conexão do programa com a minilibx
 	void	*wd;//pointer que leva ate a janela
@@ -75,13 +70,12 @@ typedef struct	s_game
 	void	*ground;
 	void	*wall;
 	void	*exit;
-	void	*enemy;
+	void	*t;
 	int		was_exit;
 	t_cord	*coins;
 	int		enemies_count;
 	t_cord	*enemies;
 }			t_game;
-
 
 //get_next_line
 char	*ft_strjoin(char *s1, char *s2);
@@ -149,6 +143,3 @@ void	enemy_move_right(t_game *g);
 void	enemy_move_left(t_game *g);
 
 #endif
-
-//GIMP - programa de tratamento de imagens 
-	//corta em png e coloca o chão atras

@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 19:16:38 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/24 16:02:45 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:44:46 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	find_collectable(t_game *game)
 {
-	int	x;
-	int	y;
-	int	position;
+	int		x;
+	int		y;
+	int		position;
 	t_cord	*coins;
 
 	coins = ft_calloc(sizeof(t_cord), game->collectables);
@@ -35,7 +35,7 @@ void	find_collectable(t_game *game)
 				position++;
 			}
 			if (position == game->collectables)
-				break;
+				break ;
 		}
 	}
 }
@@ -43,7 +43,7 @@ void	find_collectable(t_game *game)
 void	coin_image(t_game *g, int flag)
 {
 	int	p;
-	
+
 	p = -1;
 	while (++p < g->collectables)
 	{
@@ -69,7 +69,7 @@ int	coin_spin(t_game *g)
 {
 	static int	i = -1;
 
-	random_enemy(g); //move enemy in loop
+	random_enemy(g);
 	if (++i == 0)
 		coin_image(g, 1);
 	if (i == 10000)
@@ -108,7 +108,7 @@ void	put_images_on_window(t_game *g)
 			if (g->map[x][y] == 'E')
 				mlx_put_image_to_window(g->mlx, g->wd, g->exit, y * SZ, x * SZ);
 			if (g->map[x][y] == 'T')
-				mlx_put_image_to_window(g->mlx, g->wd, g->enemy, y * SZ, x * SZ);
+				mlx_put_image_to_window(g->mlx, g->wd, g->t, y * SZ, x * SZ);
 		}
 	}
 }
@@ -128,5 +128,5 @@ void	set_images_to_pointer(t_game *g, int i)
 	g->c3 = mlx_xpm_file_to_image(g->mlx, "img/c3.xpm", &i, &i);
 	g->c4 = mlx_xpm_file_to_image(g->mlx, "img/c4.xpm", &i, &i);
 	g->exit = mlx_xpm_file_to_image(g->mlx, "img/exit.xpm", &i, &i);
-	g->enemy = mlx_xpm_file_to_image(g->mlx, "img/enemy.xpm", &i, &i);
+	g->t = mlx_xpm_file_to_image(g->mlx, "img/enemy.xpm", &i, &i);
 }

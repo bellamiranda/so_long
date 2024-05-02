@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 19:20:13 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/29 20:44:27 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:50:42 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	put_keys(int key, t_game *g)
 {
-	//random_enemy(g); - move every click
 	if (key == ESC)
 		exit_game(g, 1);
 	if (key == UP || key == KEY_W)

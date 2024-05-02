@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/02 19:30:49 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/29 21:33:27 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:49:00 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	map_lines(t_game *game, char *arg)
 		(game)->height++;
 		free (line);
 	}
-	//free (line);
 	close(fd);
 }
 
@@ -61,6 +60,5 @@ void	map_init(t_game **game, char *arg)
 		(*game)->map[i++] = ft_strdup(line);
 		free (line);
 	}
-	//(*game)->map[i] = '\0';
 	free (line);
 }

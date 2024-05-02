@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 15:57:31 by ismirand          #+#    #+#             */
-/*   Updated: 2024/05/01 20:15:53 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/02 20:40:31 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 void	random_enemy(t_game *game)
 {
 	int			flag;
-	static int	i = -1; //to make it move slowly
+	static int	i = -1;
 
-	find_enemy(game);
-	//ACHAR UM LUGAR PRA DAR FREE
 	if (!game->enemies_count)
 		return ;
+	find_enemy(game);
 	if (++i == 10000)
 	{
 		flag = rand();
@@ -39,9 +38,9 @@ void	random_enemy(t_game *game)
 
 void	find_enemy(t_game *game)
 {
-	int	x;
-	int	y;
-	int	position;
+	int		x;
+	int		y;
+	int		position;
 	t_cord	*enemies;
 
 	enemies = ft_calloc(sizeof(t_cord), game->enemies_count);
@@ -95,7 +94,7 @@ void	write_movements_on_window(t_game *game)
 
 	movements = ft_itoa(game->movements);
 	mlx_put_image_to_window(game->mlx, game->wd, game->wall, 85, 0);
-	mlx_string_put(game->mlx, game->wd, 35, 20, 0x000000, "MOVEMENTS: ");
-	mlx_string_put(game->mlx, game->wd, 100, 20, 0x000000, movements);
+	mlx_string_put(game->mlx, game->wd, 35, 20, 0xFFFFFF, "MOVEMENTS: ");
+	mlx_string_put(game->mlx, game->wd, 100, 20, 0xFFFFFF, movements);
 	free(movements);
 }
