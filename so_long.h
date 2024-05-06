@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 15:12:05 by ismirand          #+#    #+#             */
-/*   Updated: 2024/05/02 20:58:48 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/06 18:22:49 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int		not_rectangular(t_game *game);
 int		valid_path_exit(t_game *game);
 int		valid_path_collectable(t_game *game);
 int		ft_aux(t_game *game, char ***map, int x, int y);
+int		empty_map(t_game *game);
 
 //game
 void	set_images_to_pointer(t_game *game, int i);

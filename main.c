@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 15:22:21 by ismirand          #+#    #+#             */
-/*   Updated: 2024/05/02 20:48:26 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/06 17:56:41 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ int	main(int argc, char **argv)
 	if (argc == 2 && find_ber(argv[1], ".ber") && fd > 0)
 	{
 		map_init(&game, argv[1]);
+		game->movements = 0;
+		game->was_exit = 0;
+		game->coins = 0;
 		map_validations(game);
 		game->mlx = mlx_init();
 		game->wd = mlx_new_window(game->mlx, game->width * SZ,
 				game->height * SZ, "so_long");
 		set_images_to_pointer(game, SZ);
 		put_images_on_window(game);
-		game->movements = 0;
-		game->was_exit = 0;
 		mlx_hook(game->wd, KeyPress, KeyPressMask, put_keys, game);
 		mlx_hook(game->wd, DestroyNotify, ButtonPressMask, exit_game, game);
 		find_collectable(game);

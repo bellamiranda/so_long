@@ -6,7 +6,7 @@
 /*   By: ismirand <ismirand@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 13:49:47 by ismirand          #+#    #+#             */
-/*   Updated: 2024/04/29 20:43:13 by ismirand         ###   ########.fr       */
+/*   Updated: 2024/05/06 19:23:26 by ismirand         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	move_right(t_game *game)
 	else if (game->map[game->p_y][game->p_x + 1] == 'C')
 	{
 		aux_move_right(game, 'C');
-		game->map[game->p_y][game->p_x] = '0';
 		free (game->coins);
 		find_collectable(game);
 	}
@@ -111,7 +110,6 @@ void	move_left(t_game *game)
 	else if (game->map[game->p_y][game->p_x - 1] == 'C')
 	{
 		aux_move_left(game, 'C');
-		game->map[game->p_y][game->p_x] = '0';
 		free (game->coins);
 		find_collectable(game);
 	}

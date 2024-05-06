@@ -1,39 +1,58 @@
+.SILENT:
+.ONESHELL:
+
+# Name of the executable
 NAME = so_long
 
-CC = cc
-CFLAGS = -Wall -Werror -Wextra -g
-
-LIB = -Lminilibx-linux -lmlx -lXext -lX11 -lm 
-MINILIBX = minilibx-linux/libmlx_linux.a
-MLX = minilibx-linux
-
+# Source files and object files
 SRCS = get_next_line.c get_next_line_utils.c \
-		utils.c map.c map_validations.c free.c \
-		valid_paths.c game.c moves.c moves_2.c \
-		bonus.c bonus_moves.c 
+	utils.c map.c map_validations.c free.c \
+	valid_paths.c game.c moves.c moves_2.c \
+	bonus.c bonus_moves.c main.c
 
 OBJS = $(SRCS:.c=.o)
 
-RM = rm -rf
+# Compiler and flags
+CC = cc
+CFLAGS = -g -Wall -Wextra -Werror
 
-all: $(MLX) $(MINILIBX) $(NAME)
+# Library directories and libraries
+MLX_DIR = minilibx-linux/
+MLX = $(MLX_DIR)libmlx.a
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) main.c $(LIB) -o $(NAME) 
+# Link against required libraries
+MLXFLAGS = -L$(MLX_DIR) -lmlx -lX11 -lXext -lm
 
-$(MINILIBX): $(MLX)
-	$(RM) minilibx-linux/.git
-	@make -C $^
+# Build the executable
+all: $(NAME)
 
-$(MLX):
-	@git clone https://github.com/42Paris/minilibx-linux.git
+$(NAME): $(SRCS) $(MLX) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(MLXFLAGS) -o $(NAME)
+	@echo "\033[1;32m[ ✔ ] $(NAME) ready!\033[0m"
 
-#	$(CC) $(CFLAGS) $(NAME) $(OBJS) -o $(NAME)
+# Build minilibx-linux library
+$(MLX): $(MLX_DIR)
+	@rm -rf minilibx-linux/.git
+	@make -C $^ > /dev/null 2>&1
+
+$(MLX_DIR):
+	@echo "\033[1;35m[ ✔ ] Preparing minilibx...\033[0m"
+	@git clone https://github.com/42Paris/minilibx-linux.git > /dev/null 2>&1
+
+# Compiling object files
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+	@echo "\033[1;36m[ ✔ ] Compiling objects...\033[0m"
 
 clean:
-	$(RM) $(OBJS) $(OBJS_BONUS)
+	@rm -rf $(OBJS)
+	@echo "\033[1;31m[ ✔ ] Object files removed\033[0m"
 
 fclean: clean
-	$(RM) $(NAME) $(NAME_BONUS) $(MLX)
+	@rm -rf $(NAME) $(MLX_DIR)
+	@echo "\033[1;31m[ ✔ ] Executable and Minilibx removed\033[0m"
 
 re: fclean all
+
+# Declare these targets as .PHONY so they are not treated as files
+.PHONY: all clean fclean re
